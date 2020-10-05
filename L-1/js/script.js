@@ -1,6 +1,12 @@
 "use strict";
-const dummyImg = 'img/sharp.jpeg';
+/**
+ * @constant {string} Адрес изображения по умолчанию для каточки товара.
+ */
+const dummyImgAdress = 'img/sharp.jpeg';
 
+/**
+ * @type {object[]} Массив с объектами товаров.
+ */
 const goods = [
     {
         imgAdress: undefined,
@@ -30,7 +36,15 @@ const goods = [
     
 ];
 
-const renderGoodsItem = (imgAdress=dummyImg, title, price, description) => {
+/**
+ * Функция отображает карточку товара.
+ * @param {string} imgAdress - адрес изображения.
+ * @param {string} title - название товара.
+ * @param {number} price - цена товара.
+ * @param {string} description - описание товара.
+ * @return {string} Возвращает строку с карточкой товара.
+ */
+const renderGoodsItem = (imgAdress=dummyImgAdress, title, price, description) => {
     return `<div class="goods-item">
                 <img class="goods-img" src="${imgAdress}" alt="${title}">
                 <h3 class="goods-heading">${title}</h3>
@@ -45,6 +59,10 @@ const renderGoodsItem = (imgAdress=dummyImg, title, price, description) => {
     goodsList.forEach((good) => {document.querySelector('.goods-list').innerHTML += good});
 }*/
 
+/**
+ * Функция отображает список товаров.
+ * @param {Array} list - список товаров.
+ */
 const renderGoodsList = (list) => {
     list.forEach((item) => {
         let {imgAdress, title, price, description} = item;
@@ -52,5 +70,5 @@ const renderGoodsList = (list) => {
     })
 }
 
-
+// Отображаем список товаров.
 renderGoodsList(goods);
