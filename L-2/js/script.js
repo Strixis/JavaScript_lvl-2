@@ -5,8 +5,10 @@ class GoodsList {
         this.container = container;
         this.goods = [];
         this.allGoods = [];
+        this.allGoodsCost = 0;
         this._fetchGoods();
         this._render();
+        this._setAllGoodsCost();
     }
     
     _fetchGoods() {
@@ -46,6 +48,13 @@ class GoodsList {
             this.allGoods.push(goodObject);
             block.insertAdjacentHTML('beforeend', goodObject.render());
         }
+    }
+    
+    _setAllGoodsCost() {
+        for (let good of this.allGoods) {
+            this.allGoodsCost += good.price;
+        }
+        console.log(this.allGoodsCost);
     }
 }
 
