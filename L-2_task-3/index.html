@@ -6,6 +6,38 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
+    <div class="hamburger">
+        <h1 class="heading">Choose your hamburger!</h1>
+        <img src="#" alt="hamburger" class="hamburger_img" height="100">
+        <div class="hamburger_size">
+            <h2 class="heading-mini">Choose size:</h2>
+            <button class="button_choose-hamburger" id="little">Little</button>
+            <button class="button_choose-hamburger" id="big">Big</button>
+        </div>
+        <div class="hamburger_filling">
+            <h2 class="heading-mini">Choose filling:</h2>
+            <button class="button_choose-hamburger" id="cheese">Cheese</button>
+            <button class="button_choose-hamburger" id="salad">Salad</button>
+            <button class="button_choose-hamburger" id="potatoes">Potatoe</button>
+        </div>
+        <div class="hamburger_topping">
+            <h2 class="heading-mini">Choose topping:</h2>
+            <div class="hamburger_topping-choosing">
+                <button class="button_choose-hamburger" id="sauce">Sauce</button>
+                <button class="button_choose-hamburger" id="no-sauce">No sauce</button>
+            </div>
+            <div class="hamburger_topping-choosing">
+                <button class="button_choose-hamburger" id="mayonnaise">Mayonnaise</button>
+                <button class="button_choose-hamburger" id="no-mayonnaise">No mayonnaise</button>
+            </div>
+            <button class="button_choose-hamburger" id="no-topping">No topping</button>
+        </div>
+        <div class="hamburger_total">
+            <span class="text">Your hamburger: </span>
+            <span class="text">Cost: <span id="total-cost"></span>.</span>
+            <span class="text">Calorie: <span class="total-calorie"></span>.</span>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
 </body>
 </html>
