@@ -1,7 +1,7 @@
 // out:../css/style.css
 
 .hamburger {
-    width: 1230px;
+    max-width: 1230px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -21,6 +21,7 @@
         border-radius: 7px;
         padding: 17px;
         box-sizing: border-box;
+        margin: 0 0 30px 0;
     }
     &_topping-choosing {
         margin: 0 0 15px 0;
@@ -35,15 +36,13 @@
             margin: 10px 0 0 0;
         }
     }
-    &_total {
-        margin: 30px 0 0 0;
-    }
 }
 
 .wrapper {
     display: flex;
     width: 100%;
     justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .heading-mini {
