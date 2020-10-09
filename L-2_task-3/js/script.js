@@ -1,8 +1,16 @@
 "use strict";
 
 class Hamburger {
-    constructor(container = '.hamburger') {
-        this.container = container
+    constructor(containerSelector = '.hamburger',
+                imgSelector = '.hamburger_img',
+                consistId = 'consist',
+                costId = 'total-cost',
+                calorieId = 'total-calorie') {
+        this.containerSelector = containerSelector;
+        this.imgSelector = imgSelector;
+        this.consistId = consistId;
+        this.costId = costId;
+        this.calorieId = calorieId;
         this._allComponents = [];
         this._components = [];
         this._cost = null;
@@ -11,16 +19,17 @@ class Hamburger {
     }
     
     _init() {
-        this.fetchAllComponents();
+        this._fetchAllComponents();
         this._components = [{category: 'size', name: 'little', cost: 50, calorie: 20},
                            {category: 'filling', name: 'cheese', cost: 10, calorie: 20}];
-        this._cost = this._calculateCostAndCalorie().cost;
-        this._calorie = this._calculateCostAndCalorie().calorie;
+        this._cost = this._getCalculatedCostAndCalorie().cost;
+        this._calorie = this._getCalculatedCostAndCalorie().calorie;
+        this._renderInfo();
         this._render();
-        document.querySelector(this.container).addEventListener('click', (event) => {this._containerClickHandler(event)});
+        document.querySelector(this.containerSelector).addEventListener('click', (event) => {this._containerClickHandler(event)});
     }
     
-    fetchAllComponents() {
+    _fetchAllComponents() {
         this._allComponents = [
             {category: 'size', name: 'little', cost: 50, calorie: 20},
             {category: 'size', name: 'big', cost: 100, calorie: 40},
@@ -32,7 +41,7 @@ class Hamburger {
         ];
     }
     
-    _calculateCostAndCalorie(cost = 0, calorie = 0) {
+    _getCalculatedCostAndCalorie(cost = 0, calorie = 0) {
         for (let component of this._components) {
             cost += component.cost;
             calorie += component.calorie;
@@ -40,11 +49,24 @@ class Hamburger {
         return {cost, calorie};
     }
     
-    _render(imgSelector = '.hamburger_img',
-            consistId = 'consist',
-            costId = 'total-cost',
-            calorieId = 'total-calorie') {
-        const imgElem = document.querySelector(imgSelector),
+    _renderInfo() {
+        const buttonElems = document.querySelectorAll('.button_choose-hamburger');
+        
+        for (let elem = 0; elem < buttonElems.length; elem++) {
+            for (let component of this._allComponents) {
+                if (buttonElems[elem].id === component.name) {
+                    const newElem = document.createElement('span');
+                    newElem.insertAdjacentHTML('beforeend', `Cost: ${component.cost}  Calorie: ${component.calorie}`);
+                    newElem.classList.add('hamburger_info');
+                    buttonElems[elem].before(newElem);
+                    continue;
+                }
+            }
+        }
+    }
+    
+    _render() {
+        const imgElem = document.querySelector(this.imgSelector),
               componentsNames = this._getComponentsNames();
         
         for (let name = 0; name < componentsNames.length; name++) {
@@ -73,9 +95,9 @@ class Hamburger {
             }
         }
         
-        document.getElementById(consistId).innerHTML = componentsNames.join(' ');
-        document.getElementById(costId).innerHTML = this._cost + 'rub';
-        document.getElementById(calorieId).innerHTML = this._calorie + 'cal';
+        document.getElementById(this.consistId).innerHTML = componentsNames.join(' ');
+        document.getElementById(this.costId).innerHTML = this._cost + 'rub';
+        document.getElementById(this.calorieId).innerHTML = this._calorie + 'cal';
     }
     
     _getComponentsNames() {
@@ -101,8 +123,8 @@ class Hamburger {
                 this._fetchOrReplaceComponent(component);
             }
             
-            this._cost = this._calculateCostAndCalorie().cost;
-            this._calorie = this._calculateCostAndCalorie().calorie;
+            this._cost = this._getCalculatedCostAndCalorie().cost;
+            this._calorie = this._getCalculatedCostAndCalorie().calorie;
             this._render();
         }
     }
