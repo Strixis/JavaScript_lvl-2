@@ -1,6 +1,13 @@
 "use strict";
 
+/**
+ * Класс, представляющий список товаров.
+ */
 class GoodsList {
+    /**
+     * Создает список товаров.
+     * @param {string} container - селектор контейнера.
+     */
     constructor(container = '.products') {
         this.container = container;
         this.goods = [];
@@ -8,9 +15,12 @@ class GoodsList {
         this.allGoodsCost = 0;
         this._fetchGoods();
         this._render();
-        this._setAllGoodsCost();
+        this._fetchAllGoodsCost();
     }
     
+    /**
+     * Получает список товаров.
+     */
     _fetchGoods() {
         this.goods = [
             {
@@ -39,7 +49,10 @@ class GoodsList {
             }
         ];
     }
-
+    
+    /**
+     * Отображает список товаров.
+     */
     _render() {
         const block = document.querySelector(this.container);
         
@@ -50,7 +63,10 @@ class GoodsList {
         }
     }
     
-    _setAllGoodsCost() {
+    /**
+     * Получает суммарную стоимость всех товаров.
+     */
+    _fetchAllGoodsCost() {
         for (let good of this.allGoods) {
             this.allGoodsCost += good.price;
         }
@@ -58,7 +74,15 @@ class GoodsList {
     }
 }
 
+
+/**
+ * Класс, представляющий товар.
+ */
 class GoodsItem {
+    /**
+     * Создает товар.
+     * @param {string} good - товар.
+     */
     constructor(good) {
         this.imgAdress = good.imgAdress !== undefined ? good.imgAdress : 'img/sharp.jpeg';
         this.title = good.title;
@@ -66,6 +90,9 @@ class GoodsItem {
         this.description = good.description;
     }
     
+    /**
+     * Отображает карточку с товаром.
+     */
     render() {
         return `<div class="goods-item">
                 <img class="goods-img" src="${this.imgAdress}" alt="${this.title}">
