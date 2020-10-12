@@ -1,0 +1,84 @@
+// out:../css/style.css
+
+.header {
+    max-width: 1320px;
+    margin: 0 auto;
+    &_button-container {
+        display: flex;
+        justify-content: flex-end;
+        border: 2px solid black;
+        padding: 15px;
+    }
+}
+
+.navigation {
+    background: lightgrey;
+    display: flex;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    padding: 17px;
+    align-items: center;
+    &_link {
+        background: white;
+        display: block;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        margin: 0 20px 0 0;
+    }
+    &_search {
+        width: 600px;
+        border: none;
+        border-radius: 3px;
+        padding: 2px;
+    }
+}
+
+.cart-button {
+    background: none;
+    cursor: pointer;
+    height: 24px;
+    width: 100px;
+    border-radius: 12px;
+    border: 1px solid black;
+    outline: none;
+}
+
+.goods-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1320px;
+    margin: 40px auto 0;
+}
+
+.goods-item {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    border: 2px solid black;
+    padding: 10px;
+    margin: 0 0 20px 0;
+}
+
+.goods-img {
+    background: lightgrey;
+    height: 150px;
+    flex-shrink: 0;
+}
+
+.goods-description {
+    height: 100%;
+}
+
+.goods-price {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.add-button {
+    cursor: pointer;
+    padding: 2px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
