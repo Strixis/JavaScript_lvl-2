@@ -2,20 +2,23 @@
 
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
-let getRequest = (url, cb) => {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-            if(xhr.status !== 200) {
-                console.log('Error')
-            } else {
-                cb(xhr.responseText);
+// Функция для дз
+/*const getRequest = (url) => {
+    return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if(xhr.status !== 200) {
+                    reject('Error')
+                } else {
+                    resolve(xhr.responseText);
+                }
             }
         }
-    }
-    xhr.send();
-}
+        xhr.send();
+    });
+};*/
 
 /**
  * Класс, представляющий список товаров.
@@ -36,7 +39,21 @@ class GoodsList {
                 this._render();
                 this._fetchAllGoodsCost();
         });
+        
+        // Функция для дз
+        /*this.fetchGoods();*/
     }
+    
+    // Функция для дз
+    /*fetchGoods() {
+        getRequest(`${API}/catalogData.json`)
+        .then((data) => {
+            this.goods = JSON.parse(data);
+            this._render();
+        })
+        .catch((error) => console.log(error));
+    }*/
+    
     
     /**
      * Получает список товаров.
