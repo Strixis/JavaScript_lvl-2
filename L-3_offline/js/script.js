@@ -49,23 +49,10 @@ class GoodsList {
     
     /**
      * Получает список товаров.
-     * @returns {(Array|string)} Данные с сервера или строка ошибки.
+     * @returns {(Array|string)} Данные с сервера или строку ошибки.
      */
     _getGoodsFromServer() {
        return fetch(`${API}/catalogData.json`)
-           .then(response => response.json())
-           .catch(error => {
-           console.log('Error')
-       });
-    }
-    
-    /**
-     * Получает ответ от сервера.
-     * @param {string} question - запрос.
-     * @returns {(Array|string)} Данные с сервера или строка ошибки.
-     */
-    _getAnswerFromServer(question) {
-        return fetch(`${API}/${question}.json`)
            .then(response => response.json())
            .catch(error => {
            console.log('Error')
@@ -109,11 +96,7 @@ class GoodsList {
         if (event.target.tagName === 'BUTTON') {
             const good = this.getGoodById(event.target.id);
             if (this.goodsInShop.includes(good)) {
-                this._getAnswerFromServer('addToBasket').then((data) => {
-                    if (data.result === 1) {
-                        basket.addItemOrIncreaseQuantityAndRender(good);
-                    }
-                })
+                basket.addItemOrIncreaseQuantityAndRender(good);
             }
         }
     }
@@ -184,65 +167,22 @@ class Basket {
 //        this.addItemOrIncreaseQuantityAndRender({title: "Мышка", price: 1000});
 //        this._setAllGoodsQuantity(this._calculateQuantity());
         
-        this._getGoodsFromServer()
-            .then(data => {
-                data.contents.forEach((item) => {this.addItemOrIncreaseQuantityAndRender(item)});
-                this.allGoodsCost = data.amount;
-                this.allGoodsQuantity = data.countGoods;
-                this._render();
-            
-                document.querySelector(this.buttonContainer).addEventListener('click', () => {
-                    const elemClasses = document.querySelector(this.container).classList;
-                    elemClasses.toggle('__visible');
-                    elemClasses.toggle('__invisible');
-                });
-            
-                document.querySelector(this.container).addEventListener('click', (event) => {
-                    this._clickHandlerToRemoveGoodFromBasket(event);
-                });
-        });
-    }
-    
-    /**
-     * Обрабатывает событие клика для добавления товара в корзину
-     * @param {MouseEvent} event - событие клика мышью.
-     */
-    _clickHandlerToRemoveGoodFromBasket(event) {
-        if (event.target.tagName === 'BUTTON') {
-            const good = this.getGoodById(event.target.id);
-            if (this.allGoods.includes(good)) {
-                this._getAnswerFromServer('deleteFromBasket').then((data) => {
-                    if (data.result === 1) {
+        this._render();
+        
+        document.querySelector(this.buttonContainer).addEventListener('click', () => {
+            const elemClasses = document.querySelector(this.container).classList;
+            elemClasses.toggle('__visible');
+            elemClasses.toggle('__invisible');
+        })
+        
+        document.querySelector(this.container).addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                const good = this.getGoodById(event.target.id);
+                if (this.allGoods.includes(good)) {
                         basket.removeItemOrDecreaseQuantityAndRender(good);
                     }
-                });
             }
-        }
-    }
-    
-    /**
-     * Получает список товаров.
-     * @returns {(Array|string)} Данные с сервера или строку ошибки.
-     */
-    _getGoodsFromServer() {
-       return fetch(`${API}/getBasket.json`)
-           .then(response => response.json())
-           .catch(error => {
-           console.log('Error')
-       });
-    }
-    
-    /**
-     * Получает ответ от сервера.
-     * @param {string} question - запрос.
-     * @returns {(Array|string)} Данные с сервера или строка ошибки.
-     */
-    _getAnswerFromServer(question) {
-        return fetch(`${API}/${question}.json`)
-           .then(response => response.json())
-           .catch(error => {
-           console.log('Error')
-       });
+        })
     }
     
     /**
@@ -284,7 +224,7 @@ class Basket {
      * @param {Object} good - товар.
      */
     removeItemOrDecreaseQuantityAndRender(good) {
-        const item = this.allGoods.find((elem) => {return good.id === elem.id});
+        const item = this.allGoods.find((elem) => {return good.title === elem.title});
         if (item.quantity === 1) {
             this.allGoods.splice(this.allGoods.indexOf(item), 1);
         } else {
@@ -330,9 +270,9 @@ class BasketItem {
      * @param {Object} good - товар.
      */
     constructor(good) {
-        this.title = good.title || good.product_name;
+        this.title = good.title;
         this.price = good.price;
-        this.id = good.id || good.id_product;
+        this.id = good.id;
         this.quantity = 0;
     }
     
