@@ -30,47 +30,28 @@ class GoodsList {
      */
     constructor(container = '.products') {
         this.container = container;
-        this.goods = [];
-        this.allGoods = [];
+        this.goodsFromServer = [];
+        this.goodsInShop = [];
         this.allGoodsCost = 0;
-        this._getGoods()
+        this._getGoodsFromServer()
             .then(data => {
-                this.goods = [...data];
+                this.goodsFromServer = [...data];
                 this._render();
-                this._fetchAllGoodsCost();
-            
-            document.querySelector(this.container).addEventListener('click', (event) => {
-                if (event.target.tagName === 'BUTTON') {
-                    const good = this.getGoodById(event.target.id);
-                    if (this.allGoods.includes(good)) {
-                        basket.addItem(good);
-                    }
-                }
-            })
+                this._setAllGoodsCost(this._calculateAllGoodsCost());
+                console.log(this.allGoodsCost);
+
+                document.querySelector(this.container).addEventListener('click', (event) => this._clickHandlerToAddGoodAtBasket(event));
         });
         
         // Функция для дз
         /*this.fetchGoods();*/
     }
     
-    // Функция для дз
-    /*fetchGoods() {
-        getRequest(`${API}/catalogData.json`)
-        .then((data) => {
-            this.goods = JSON.parse(data);
-            this._render();
-        })
-        .catch((error) => console.log(error));
-    }*/
-    
-    getGoodById(goodId) {
-        return this.allGoods.find((item) => {return item.id === +goodId});
-    }
-    
     /**
      * Получает список товаров.
+     * @returns {(Array|string)} Данные с сервера или строку ошибки.
      */
-    _getGoods() {
+    _getGoodsFromServer() {
        return fetch(`${API}/catalogData.json`)
            .then(response => response.json())
            .catch(error => {
@@ -84,21 +65,60 @@ class GoodsList {
     _render() {
         const block = document.querySelector(this.container);
         
-        for (let good of this.goods) {
+        for (let good of this.goodsFromServer) {
             const goodObject = new GoodsItem(good);
-            this.allGoods.push(goodObject);
-            block.insertAdjacentHTML('beforeend', goodObject.render());
+            this.goodsInShop.push(goodObject);
+            block.insertAdjacentHTML('beforeend', goodObject._render());
         }
     }
     
     /**
-     * Получает суммарную стоимость всех товаров.
+     * Задает суммарную стоимость всех товаров.
+     * @param {number} cost - стоимость товаров.
      */
-    _fetchAllGoodsCost() {
-        this.allGoodsCost = this.allGoods.reduce((previousValue, currentValue) => {return previousValue + currentValue.price}, this.allGoodsCost);
-
-        console.log(this.allGoodsCost);
+    _setAllGoodsCost(cost) {
+        this.allGoodsCost = cost;
     }
+    
+    /**
+     * Вычисляет суммарную стоимость всех товаров.
+     * @returns {number} Суммарная стоимость товаров.
+     */
+    _calculateAllGoodsCost() {
+        return this.goodsInShop.reduce((previousValue, currentValue) => {return previousValue + currentValue.price}, 0);
+    }
+    
+    /**
+     * Обрабатывает событие клика для добавления товара в корзину
+     * @param {MouseEvent} event - событие клика мышью.
+     */
+    _clickHandlerToAddGoodAtBasket(event) {
+        if (event.target.tagName === 'BUTTON') {
+            const good = this.getGoodById(event.target.id);
+            if (this.goodsInShop.includes(good)) {
+                basket.addItemOrIncreaseQuantityAndRender(good);
+            }
+        }
+    }
+    
+    /**
+     * Получает товар по Id.
+     * @param {string} goodId - id товара.
+     * @returns {Object} Товар.
+     */
+    getGoodById(goodId) {
+        return this.goodsInShop.find((item) => {return String(item.id) === goodId});
+    }
+    
+    // Функция для дз
+    /*fetchGoods() {
+        getRequest(`${API}/catalogData.json`)
+        .then((data) => {
+            this.goods = JSON.parse(data);
+            this._render();
+        })
+        .catch((error) => console.log(error));
+    }*/
 }
 
 
@@ -108,7 +128,7 @@ class GoodsList {
 class GoodsItem {
     /**
      * Создает товар.
-     * @param {string} good - товар.
+     * @param {Object} good - товар.
      */
     constructor(good) {
         this.imgAdress = good.imgAdress !== undefined ? good.imgAdress : 'img/sharp.jpeg';
@@ -121,7 +141,7 @@ class GoodsItem {
     /**
      * Отображает карточку с товаром.
      */
-    render(container = '.products') {
+    _render(container = '.products') {
         return `<div class="goods-item">
                 <img class="goods-img" src="${this.imgAdress}" alt="${this.title}">
                 <h3 class="goods-heading">${this.title}</h3>
@@ -132,6 +152,9 @@ class GoodsItem {
     }
 }
 
+/**
+ * Класс, представляющий корзину товаров.
+ */
 class Basket {
     constructor(container = '#basket', buttonContainer = '#basket-button') {
         this.container = container;
@@ -139,12 +162,12 @@ class Basket {
         this.allGoods = [];
         this.allGoodsCost = 0;
         this.allGoodsQuantity = 0;
-//        this.addItem({title: "Мышка", price: 1000});
-//        this.addItem({title: "Ноутбук", price: 45600});
-//        this.addItem({title: "Мышка", price: 1000});
-//        this.setAllGoodsQuantity(this.calculateQuantity());
+//        this.addItemOrIncreaseQuantityAndRender({title: "Мышка", price: 1000});
+//        this.addItemOrIncreaseQuantityAndRender({title: "Ноутбук", price: 45600});
+//        this.addItemOrIncreaseQuantityAndRender({title: "Мышка", price: 1000});
+//        this._setAllGoodsQuantity(this._calculateQuantity());
         
-        this.render();
+        this._render();
         
         document.querySelector(this.buttonContainer).addEventListener('click', () => {
             const elemClasses = document.querySelector(this.container).classList;
@@ -156,18 +179,21 @@ class Basket {
             if (event.target.tagName === 'BUTTON') {
                 const good = this.getGoodById(event.target.id);
                 if (this.allGoods.includes(good)) {
-                        basket.removeItemOrDecreaseQuantity(good);
+                        basket.removeItemOrDecreaseQuantityAndRender(good);
                     }
             }
         })
     }
     
-    render() {
+    /**
+     * Отображает содержимое корзины.
+     */
+    _render() {
         const block = document.querySelector(this.container);
         let content = '';
         
         for (let good of this.allGoods) {
-           content += good.render(this.container);
+           content += good._render(this.container);
         }
         
         if (content === '') {
@@ -177,7 +203,11 @@ class Basket {
         }
     }
     
-    addItem(good) {
+    /**
+     * Добавляет товар в корзину или увеличивает его количество и отображает изменения.
+     * @param {Object} good - товар.
+     */
+    addItemOrIncreaseQuantityAndRender(good) {
         const item = this.allGoods.find((elem) => {return good.title === elem.title});
         if (this.allGoods.includes(item)) {
             item.increaseQuantityByOne();
@@ -186,35 +216,59 @@ class Basket {
             goodObject.increaseQuantityByOne();
             this.allGoods.push(goodObject);
         }
-        this.render();
+        this._render();
     }
     
-    removeItemOrDecreaseQuantity(good) {
+    /**
+     * Удаляет товар из корзины или уменьшает его количество и отображает изменения.
+     * @param {Object} good - товар.
+     */
+    removeItemOrDecreaseQuantityAndRender(good) {
         const item = this.allGoods.find((elem) => {return good.title === elem.title});
         if (item.quantity === 1) {
             this.allGoods.splice(this.allGoods.indexOf(item), 1);
         } else {
             item.decreaseQuantityByOne();
         }
-        this.render();
+        this._render();
     }
     
-    calculateQuantity() {
+    /**
+     * Вычисляет количество товара в корзине.
+     * @returns {number} Количество товара.
+     */
+    _calculateQuantity() {
         return this.allGoods.reduce((accumulator, currentValue) => {
             return accumulator + currentValue.quantity;
         }, 0);
     }
     
-    setAllGoodsQuantity(quantity) {
+    /**
+     * Задает количество товара в корзине.
+     * @param {number} quantity - Количество товара.
+     */
+    _setAllGoodsQuantity(quantity) {
         this.allGoodsQuantity = quantity;
     }
     
+    /**
+     * Получает товар по Id.
+     * @param {string} goodId - id товара.
+     * @returns {Object} Товар.
+     */
     getGoodById(goodId) {
-        return this.allGoods.find((item) => {return item.id === +goodId});
+        return this.allGoods.find((item) => {return String(item.id) === goodId});
     }
 }
 
+/**
+ * Класс, представляющий товар в корзине.
+ */
 class BasketItem {
+    /**
+     * Создает товар.
+     * @param {Object} good - товар.
+     */
     constructor(good) {
         this.title = good.title;
         this.price = good.price;
@@ -222,15 +276,24 @@ class BasketItem {
         this.quantity = 0;
     }
     
+    /**
+     * Увеличивает количество товара на 1.
+     */
     increaseQuantityByOne() {
         this.quantity += 1;
     }
     
+    /**
+     * Уменьшает количество товара на 1.
+     */
     decreaseQuantityByOne() {
         this.quantity -= 1;
     }
     
-    render(container = '#basket') {
+    /**
+     * Отображает товар.
+     */
+    _render(container = '#basket') {
         return `<div class="basket-item">
                 <p class="basket-product">
                     <span class="basket-product_content">${this.title}</span>
