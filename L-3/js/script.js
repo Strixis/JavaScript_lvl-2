@@ -38,8 +38,15 @@ class GoodsList {
                 this.goods = [...data];
                 this._render();
                 this._fetchAllGoodsCost();
-            console.log(this.goods);
-            console.log(this.allGoods);
+            
+            document.querySelector(this.container).addEventListener('click', (event) => {
+                if (event.target.tagName === 'BUTTON') {
+                    const good = this.getGoodById(event.target.id);
+                    if (this.allGoods.includes(good)) {
+                        basket.addItem(good);
+                    }
+                }
+            })
         });
         
         // Функция для дз
@@ -55,6 +62,10 @@ class GoodsList {
         })
         .catch((error) => console.log(error));
     }*/
+    
+    getGoodById(goodId) {
+        return this.allGoods.find((item) => {return item.id === +goodId});
+    }
     
     /**
      * Получает список товаров.
@@ -128,16 +139,26 @@ class Basket {
         this.allGoods = [];
         this.allGoodsCost = 0;
         this.allGoodsQuantity = 0;
-//        this.addItem({product_name: "Мышка", price: 1000});
-//        this.addItem({product_name: "Ноутбук", price: 45600});
-//        this.addItem({product_name: "Мышка", price: 1000});
+//        this.addItem({title: "Мышка", price: 1000});
+//        this.addItem({title: "Ноутбук", price: 45600});
+//        this.addItem({title: "Мышка", price: 1000});
 //        this.setAllGoodsQuantity(this.calculateQuantity());
         
         this.render();
+        
         document.querySelector(this.buttonContainer).addEventListener('click', () => {
             const elemClasses = document.querySelector(this.container).classList;
             elemClasses.toggle('__visible');
             elemClasses.toggle('__invisible');
+        })
+        
+        document.querySelector(this.container).addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                const good = this.getGoodById(event.target.id);
+                if (this.allGoods.includes(good)) {
+                        basket.removeItemOrDecreaseQuantity(good);
+                    }
+            }
         })
     }
     
@@ -157,7 +178,7 @@ class Basket {
     }
     
     addItem(good) {
-        const item = this.allGoods.find((elem) => {return good.product_name === elem.title});
+        const item = this.allGoods.find((elem) => {return good.title === elem.title});
         if (this.allGoods.includes(item)) {
             item.increaseQuantityByOne();
         } else {
@@ -169,7 +190,7 @@ class Basket {
     }
     
     removeItemOrDecreaseQuantity(good) {
-        const item = this.allGoods.find((elem) => {return good.product_name === elem.title});
+        const item = this.allGoods.find((elem) => {return good.title === elem.title});
         if (item.quantity === 1) {
             this.allGoods.splice(this.allGoods.indexOf(item), 1);
         } else {
@@ -187,12 +208,17 @@ class Basket {
     setAllGoodsQuantity(quantity) {
         this.allGoodsQuantity = quantity;
     }
+    
+    getGoodById(goodId) {
+        return this.allGoods.find((item) => {return item.id === +goodId});
+    }
 }
 
 class BasketItem {
     constructor(good) {
-        this.title = good.product_name;
+        this.title = good.title;
         this.price = good.price;
+        this.id = good.id;
         this.quantity = 0;
     }
     
@@ -211,7 +237,7 @@ class BasketItem {
                     <span class="basket-product_content">${this.price}</span>
                     <span class="basket-product_content">x ${this.quantity}</span>
                 </p>
-                <button class="remove-button">Удалить</button>
+                <button class="remove-button" id="${this.id}">Удалить</button>
             </div>`;
     }
 }
