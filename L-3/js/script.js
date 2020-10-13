@@ -197,7 +197,7 @@ class Basket {
         }
         
         if (content === '') {
-            block.innerHTML = 'Empty';
+            block.innerHTML = '<p class="basket-no-item">Empty</p>';
         } else {
             block.innerHTML = content;
         }
