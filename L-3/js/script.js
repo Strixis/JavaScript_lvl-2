@@ -38,6 +38,8 @@ class GoodsList {
                 this.goods = [...data];
                 this._render();
                 this._fetchAllGoodsCost();
+            console.log(this.goods);
+            console.log(this.allGoods);
         });
         
         // Функция для дз
@@ -53,7 +55,6 @@ class GoodsList {
         })
         .catch((error) => console.log(error));
     }*/
-    
     
     /**
      * Получает список товаров.
@@ -102,73 +103,118 @@ class GoodsItem {
         this.imgAdress = good.imgAdress !== undefined ? good.imgAdress : 'img/sharp.jpeg';
         this.title = good.product_name;
         this.price = good.price;
-        this.description = good.description !== undefined ? good.description : 'There is no description.';;
+        this.description = good.description !== undefined ? good.description : 'There is no description.';
+        this.id = good.id_product;
     }
     
     /**
      * Отображает карточку с товаром.
      */
-    render() {
+    render(container = '.products') {
         return `<div class="goods-item">
                 <img class="goods-img" src="${this.imgAdress}" alt="${this.title}">
                 <h3 class="goods-heading">${this.title}</h3>
                 <p class="goods-description">${this.description}</p>
                 <p class="goods-price">${this.price}</p>
-                <button class="add-button">Добавить</button>
+                <button class="add-button" id=${this.id}>Добавить</button>
             </div>`;
     }
 }
 
 class Basket {
-    /*
-    Что есть корзина?
-    + В корзине лежат товары, которые мы выбрали.
-    Первоначально корзина пуста.
-    Мы можем добавить товар в корзину.
-    - Корзина должна отображаться.
-    -- Корзина должна получать товар.
-    --- Корзина должна считать стоимость товаров в ней.
-    ---- Корзина должна убирать ненужный товар
-    ----- Из корзины можно убрать все товары
-    ++ У корзины есть стоимость товаров в ней.
-    */
-    constructor() {
-        /*
-        + Значит тут будет что то вроде items = []
-        ++ Значит тут будет что то вроде itemsCost = null
-        */
+    constructor(container = '#basket', buttonContainer = '#basket-button') {
+        this.container = container;
+        this.buttonContainer = buttonContainer;
+        this.allGoods = [];
+        this.allGoodsCost = 0;
+        this.allGoodsQuantity = 0;
+//        this.addItem({product_name: "Мышка", price: 1000});
+//        this.addItem({product_name: "Ноутбук", price: 45600});
+//        this.addItem({product_name: "Мышка", price: 1000});
+//        this.setAllGoodsQuantity(this.calculateQuantity());
+        
+        this.render();
+        document.querySelector(this.buttonContainer).addEventListener('click', () => {
+            const elemClasses = document.querySelector(this.container).classList;
+            elemClasses.toggle('__visible');
+            elemClasses.toggle('__invisible');
+        })
     }
-    /*
-    - Значит тут будет что то вроде _render
-    -- Значит тут будет что то вроде _fetchItem
-    --- Значит тут будет что то вроде _setItemsCost
-    ---- Значит тут будет что то вроде _removeItem
-    ----- Значит тут будет что то вроде _removeAllItems
-    */
+    
+    render() {
+        const block = document.querySelector(this.container);
+        let content = '';
+        
+        for (let good of this.allGoods) {
+           content += good.render(this.container);
+        }
+        
+        if (content === '') {
+            block.innerHTML = 'Empty';
+        } else {
+            block.innerHTML = content;
+        }
+    }
+    
+    addItem(good) {
+        const item = this.allGoods.find((elem) => {return good.product_name === elem.title});
+        if (this.allGoods.includes(item)) {
+            item.increaseQuantityByOne();
+        } else {
+            const goodObject = new BasketItem(good);
+            goodObject.increaseQuantityByOne();
+            this.allGoods.push(goodObject);
+        }
+        this.render();
+    }
+    
+    removeItemOrDecreaseQuantity(good) {
+        const item = this.allGoods.find((elem) => {return good.product_name === elem.title});
+        if (item.quantity === 1) {
+            this.allGoods.splice(this.allGoods.indexOf(item), 1);
+        } else {
+            item.decreaseQuantityByOne();
+        }
+        this.render();
+    }
+    
+    calculateQuantity() {
+        return this.allGoods.reduce((accumulator, currentValue) => {
+            return accumulator + currentValue.quantity;
+        }, 0);
+    }
+    
+    setAllGoodsQuantity(quantity) {
+        this.allGoodsQuantity = quantity;
+    }
 }
 
 class BasketItem {
-    /*
-    Что есть элемент корзины?
-    + Это товар.
-    Это товар, который лежит в корзине.
-    - Этот товар нужно как то получить.
-    ++ Это товар, который имеет количество.
-    -- Количество товара может изменяться.
-    --- Товар должен отображаться.
-    */
-    constructor() {
-        /*
-        + Значит тут будет что то вроде super от GoodsItem
-        ++ Значит тут будет что то вроде this.quantity = 0
-        */
+    constructor(good) {
+        this.title = good.product_name;
+        this.price = good.price;
+        this.quantity = 0;
     }
-    /*
-    - Значит тут будет что то вроде _getGood
-    -- Значит тут будет что то вроде _addQuantity
-    -- И еще что то вроде _removeQuantity
-    --- Значит тут будет что то вроде _render
-    */
+    
+    increaseQuantityByOne() {
+        this.quantity += 1;
+    }
+    
+    decreaseQuantityByOne() {
+        this.quantity -= 1;
+    }
+    
+    render(container = '#basket') {
+        return `<div class="basket-item">
+                <p class="basket-product">
+                    <span class="basket-product_content">${this.title}</span>
+                    <span class="basket-product_content">${this.price}</span>
+                    <span class="basket-product_content">x ${this.quantity}</span>
+                </p>
+                <button class="remove-button">Удалить</button>
+            </div>`;
+    }
 }
 
 new GoodsList('.goods-list');
+let basket = new Basket('#basket', '.cart-button');
