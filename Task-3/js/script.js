@@ -132,7 +132,14 @@ class Validator {
     
     _validateField(fieldElem, rule) {
         const fieldValue = fieldElem.value;
-        return fieldValue.match(rule) === null ? false : true;
+        if (rule[0] === 'regexp') {
+            return fieldValue.match(rule[1]) === null ? false : true;
+        } else if (rule[0] === 'func') {
+            return rule[1](fieldValue);
+        } else {
+            console.error(`Задайте тип проверки как 'regexp' для регулярного выражения или 'func' если используете свою функцию проверки для поля ${fieldElem.className}`);
+            return false;
+        }
     }
     
     setResultList(list) {
@@ -179,11 +186,17 @@ class Validator {
     }
 }
 
+/* Пример пользовательской функции для проверки соответствия значения полей телефона и имени
+function sameValue(fiedlValue) {
+    const sameElem = run.getFieldElemList()[0].value;
+    return fieldValue === sameElem;
+}*/
+
 const fieldClassesAndRules = {
-    name: /^[a-zA-Zа-яА-яЁё]+$/,
-    phone: /^(\+\d\(\d{3}\)\d{3}-\d{4})$/,
-    mail: /^[a-z]{2}[\.-]?[a-z]+@[a-z]+\.[a-z]{2,6}$/, //Вариант проверки почты прямо как в дз: ^my[-.]?mail@mail.ru$*/
-    comment: /.+/
+    name: ['regexp', /^[a-zA-Zа-яА-яЁё]+$/],
+    phone: ['regexp', /^(\+\d\(\d{3}\)\d{3}-\d{4})$/], //Пример того, как мы можем проверить являются ли имя и телефон одинаковыми: ['func', sameValue]
+    mail: ['regexp', /^[a-z]{2}[\.-]?[a-z]+@[a-z]+\.[a-z]{2,6}$/], //Вариант проверки почты прямо как в дз: ^my[-.]?mail@mail.ru$
+    comment: ['regexp', /.+/]
 }
 
-new Validator(fieldClassesAndRules, '.form', 'button-submit', 'invalid', 'field_invalid', '__visible');
+const run = new Validator(fieldClassesAndRules, '.form', 'button-submit', 'invalid', 'field_invalid', '__visible');
