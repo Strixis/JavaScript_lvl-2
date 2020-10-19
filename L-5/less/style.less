@@ -1,1 +1,307 @@
 // out:../css/style.css
+.__hidden {
+    visibility: hidden !important;
+}
+
+.__closed {
+    display: none !important;
+}
+
+.basket_with-goods {
+    position: absolute;
+    top: 2px;
+    right: 0px;
+}
+
+.__error {
+    border-color: red !important;
+}
+
+.field_error {
+    color: red !important;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1320px;
+    padding: 20px;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 7px 7px 0px 0px;
+    background: #E7E7E7;
+    margin: 0 auto;
+}
+
+.navigation {
+    display: flex;
+}
+
+.logo {
+    display: flex;
+}
+
+.circle {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    margin: 0 20px 0 0;
+    &:last-child {
+        margin: 0;
+    }
+}
+
+.search-form {
+    margin: 0 0 0 30px;
+    &_search-field {
+        width: 600px;
+        height: 22px;
+        outline: none;
+        border: none;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+    &_submit-button {
+        width: 100px;
+        height: 22px;
+        background: #fff;
+        color: #000;
+        font-size: 14px;
+        line-height: 16px;
+        border: none;
+        border-radius: 11px;
+        outline: none;
+        padding: 0;
+        margin: 0 0 0 20px;
+    }
+}
+
+.basket-button {
+    width: 100px;
+    height: 22px;
+    background: #fff;
+    color: #000;
+    font-size: 14px;
+    line-height: 16px;
+    border: none;
+    border-radius: 11px;
+    outline: none;
+    padding: 0;
+}
+
+.basket-wrapper {
+    max-width: 1320px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.basket {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+    min-height: 40px;
+    background: linear-gradient(180deg, #E7E7E7 0%, rgba(255, 255, 255, 0.3) 100%, #FFFFFF 100%);
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 0px 0px 13px 13px;
+    padding: 17px 15px 17px 32px;
+    margin: -2px auto 0;
+}
+
+.basket_items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.basket-item {
+    min-width: 273px;
+    background: #fff;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 20px;
+    padding: 17px 20px;
+    margin: 0 17px 17px 0;
+    &_title,
+    &_price,
+    &_quantity,
+    &_cost {
+        display: block;
+        font-size: 14px;
+        line-height: 16px;
+        color: #000000;
+    }
+    &_title {
+        margin: 0;
+    }
+    &_price,
+    &_quantity,
+    &_cost {
+        margin: 7px 0 0 0;
+    }
+    
+}
+
+.total-cost {
+    display: block;
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 20px;
+    min-width: 273px;
+    padding: 14px 20px;
+    margin: 0 17px 0 0;
+}
+
+.goods-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-width: 1320px;
+    background: linear-gradient(180deg, rgba(251, 251, 251, 0) 0%, #EEEEEE 63.02%, rgba(213, 230, 235, 0.7) 84.37%, rgba(208, 229, 248, 0.6) 100%);
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 13px 13px 0px 0px;
+    padding: 40px 0 10px 0;
+    margin: -2px auto 0;
+}
+
+.good-item {
+    display: flex;
+    flex-direction: column;
+    width: 276px;
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 5px 5px 0px 0px;
+    padding: 20px;
+    margin: 0 0 30px 0;
+    &_img {
+        display: block;
+        flex-shrink: 0;
+        height: 150px;
+        background: #C4C4C4;
+    }
+    &_title {
+        display: block;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 28px;
+        color: #000000;
+        margin: 11px 0 0 0;
+    }
+    &_description {
+        display: block;
+        height: 100%;
+        font-size: 16px;
+        line-height: 19px;
+        color: #000;
+        margin: 17px 0 0 0;
+    }
+    &_price {
+        display: block;
+        font-style: italic;
+        font-size: 16px;
+        line-height: 19px;
+        color: #000;
+        margin: 17px 0 0 0;
+    }
+}
+
+.button-add {
+    display: block;
+    flex-shrink: 0;
+    width: 100%;
+    height: 22px;
+    background: #E7E7E7;
+    border-radius: 11px;
+    border: none;
+    outline: none;
+    padding: 0;
+    font-size: 14px;
+    line-height: 16px;
+    color: #000;
+    margin: 17px 0 0 0;
+}
+
+.feedback-form {
+    max-width: 1320px;
+    background: linear-gradient(180deg, rgba(208, 229, 248, 0.6) 0%, rgba(220, 224, 228, 0.8) 50%, #CACACA 100%);
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    padding: 32px 70px;
+    margin: -2px auto 0;
+    &_submit-button {
+        display: block;
+        width: 236px;
+        height: 22px;
+        background: #E7E7E7;
+        font-size: 14px;
+        line-height: 16px;
+        color: #000;
+        border-radius: 11px;
+        border: none;
+        outline: none;
+        padding: 0;
+        margin: 30px 0 0 0;
+    }
+}
+
+.feedback {
+    width: 70%;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    padding: 30px;
+    margin: 0;
+    &_title {
+        display: block;
+        font-size: 24px;
+        line-height: 28px;
+        color: #000000;
+        text-align: center;
+    }
+}
+
+.field {
+    display: block;
+    font-size: 14px;
+    line-height: 16px;
+    color: #000000;
+    margin: 17px 0 0 0;
+    &:first-child {
+        margin: 0;
+    }
+    &_enter {
+        display: block;
+        width: 400px;
+        height: 22px;
+        background: #FFFFFF;
+        border: 1px solid #000000;
+        box-sizing: border-box;
+        border-radius: 3px;
+        outline: none;
+        padding: 3px 7px;
+        margin: 11px 0 0 0;
+    }
+}
+
+.comment {
+    min-height: 70px;
+    padding: 7px;
+    resize: none;
+}
+
+.footer {
+    max-width: 1320px;
+    text-align: center;
+    background: #C4C4C4;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    padding: 22px;
+    margin: 0 auto;
+}
