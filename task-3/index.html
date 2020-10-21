@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <nav class="navigation">
+                <a href="#" class="logo">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </a>
+                <form action="" class="search-form">
+                    <input type="text" class="search-form_search-field" v-model="searchLine">
+                    <input type="submit" class="search-form_submit-button" value="Search" @click.prevent="filterGoods">
+                </form>
+            </nav>
+            <button class="basket-button" @click="toggleBasket()">Basket</button>
+        </header>
+        <main>
+            <div class="basket-wrapper">
+                <div class="basket" :class="{__hidden: isVisibleBasket}"></div>
+                <div class="basket basket_with-goods" v-show="isVisibleBasket">
+                    <div class="basket_items">
+                        <div class="basket-item">
+                            <span class="basket-item_title">product_name</span>
+                            <span class="basket-item_price">price</span>
+                            <span class="basket-item_quantity">quantity</span>
+                            <span class="basket-item_cost">cost</span>
+                            <button class="remove-button">Удалить</button>
+                        </div>
+                    </div>
+                    <span class="total-cost">total cost</span>
+                </div>
+            </div>
+            <section class="goods-list" v-if="products.length">
+                <div class="good-item" v-for="product of products" :key="product.id_product">
+                    <img :src="product.img ? product.img : imgCatalog" alt="title" class="good-item_img" height="150">
+                    <span class="good-item_title">{{product.product_name}}</span>
+                    <span class="good-item_description">{{product.description ? product.description : 'Description'}}</span>
+                    <span class="good-item_price">{{product.price}}</span>
+                    <button class="button-add" @click="addProduct(product)">Add</button>
+                </div>
+            </section>
+            <section class="goods-list" v-else>{{dummyNoData}}</section>
+            <form action="#" class="feedback-form">
+                <div class="feedback">
+                    <span class="feedback_title">Contact us</span>
+                    <label for="" class="field">
+                        <span class="field_title">Name:</span>
+                        <span class="field_error">The name must contain only letters.</span>
+                        <input type="text" class="field_enter name">
+                    </label>
+                    <label for="" class="field">
+                        <span class="field_title">Phone:</span>
+                        <span class="field_error">The phone should look like +7(000)000-0000</span>
+                        <input type="text" class="field_enter phone">
+                    </label>
+                    <label for="" class="field">
+                        <span class="field_title">E-mail:</span>
+                        <span class="field_error">E-mail must look like this mymail@mail.ru, or my.mail@mail.ru, or my-mail@mail.ru</span>
+                        <input type="text" class="field_enter mail">
+                    </label>
+                    <label for="" class="field">
+                        <span class="field_title">Comment:</span>
+                        <span class="field_error">Must contain at least 1 character.</span>
+                        <textarea class="field_enter comment"></textarea>
+                    </label>   
+                    <input type="submit" class="feedback-form_submit-button" value="Submit">             
+                </div>
+            </form>
+        </main>
+        <footer class="footer">
+            <span class="copyright">copyright 2020 all rights reserved</span>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
