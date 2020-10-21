@@ -6,152 +6,80 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header class="header">
-        <navigation class="navigation">
-            <a href="#" class="logo">
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-            </a>
-            <form action="" class="search-form">
-                <input type="text" class="search-form_search-field">
-                <input type="submit" class="search-form_submit-button" value="Search">
-            </form>
-        </navigation>
-        <button class="basket-button">Basket</button>
-    </header>
-    <main>
-        <div class="basket-wrapper">
-            <div class="basket __hidden"></div>
-            <div class="basket basket_with-goods">
-                <div class="basket_items">
-                    <div class="basket-item">
-                        <span class="basket-item_title">Title 1</span>
-                        <span class="basket-item_price">Price</span>
-                        <span class="basket-item_quantity">Quantity</span>
-                        <span class="basket-item_cost">Cost</span>
+    <div id="app">
+        <header class="header">
+            <nav class="navigation">
+                <a href="#" class="logo">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </a>
+                <form action="" class="search-form">
+                    <input type="text" class="search-form_search-field" v-model="searchLine">
+                    <input type="submit" class="search-form_submit-button" value="Search" @click.prevent="filterProducts">
+                </form>
+            </nav>
+            <button class="basket-button" @click="toggleBasket()">Basket</button>
+        </header>
+        <main>
+            <div class="basket-wrapper">
+                <div class="basket" :class="{__hidden: isVisibleBasket}"></div>
+                <div class="basket basket_with-goods" v-show="isVisibleBasket">
+                    <div class="basket_items">
+                        <div class="basket-item" v-for="product of basketProducts" :key="product.product_id">
+                            <span class="basket-item_title">{{product.product_name}}</span>
+                            <span class="basket-item_price">Цена: {{product.price}}р</span>
+                            <span class="basket-item_quantity">Количество: {{product.quantity}}</span>
+                            <span class="basket-item_cost">Стоимость: {{product.quantity * product.price}}р</span>
+                            <button class="remove-button" @click="removeProduct(product)">Удалить</button>
+                        </div>
                     </div>
-                    <div class="basket-item">
-                        <span class="basket-item_title">Title 2</span>
-                        <span class="basket-item_price">Price</span>
-                        <span class="basket-item_quantity">Quantity</span>
-                        <span class="basket-item_cost">Cost</span>
-                    </div>
-                    <div class="basket-item">
-                        <span class="basket-item_title">Title 3</span>
-                        <span class="basket-item_price">Price</span>
-                        <span class="basket-item_quantity">Quantity</span>
-                        <span class="basket-item_cost">Cost</span>
-                    </div>
-                    <div class="basket-item">
-                        <span class="basket-item_title">Title 1</span>
-                        <span class="basket-item_price">Price</span>
-                        <span class="basket-item_quantity">Quantity</span>
-                        <span class="basket-item_cost">Cost</span>
-                    </div>
-                    <div class="basket-item">
-                        <span class="basket-item_title">Title 2</span>
-                        <span class="basket-item_price">Price</span>
-                        <span class="basket-item_quantity">Quantity</span>
-                        <span class="basket-item_cost">Cost</span>
-                    </div>
-                    <div class="basket-item">
-                        <span class="basket-item_title">Title 3</span>
-                        <span class="basket-item_price">Price</span>
-                        <span class="basket-item_quantity">Quantity</span>
-                        <span class="basket-item_cost">Cost</span>
-                    </div>
+                    <span class="total-cost" v-if="basketProducts.length > 0">Общая стоимость: {{calculateCost}}р</span>
+                    <span class="total-cost" v-else>Empty</span>
                 </div>
-                <span class="total-cost">Total cost</span>
             </div>
-        </div>
-        <section class="goods-list">
-            <div class="good-item">
-                <img src="#" alt="title" class="good-item_img" height="150">
-                <span class="good-item_title">Title</span>
-                <span class="good-item_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, eius!</span>
-                <span class="good-item_price">Price</span>
-                <button class="button-add">Add</button>
-            </div>
-            <div class="good-item">
-                <img src="#" alt="title" class="good-item_img" height="150">
-                <span class="good-item_title">Title</span>
-                <span class="good-item_description">Lorem ipsum dolor sit amet.</span>
-                <span class="good-item_price">Price</span>
-                <button class="button-add">Add</button>
-            </div>
-            <div class="good-item">
-                <img src="#" alt="title" class="good-item_img" height="150">
-                <span class="good-item_title">Title</span>
-                <span class="good-item_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta iure, tempora, expedita adipisci quos ipsam.</span>
-                <span class="good-item_price">Price</span>
-                <button class="button-add">Add</button>
-            </div>
-            <div class="good-item">
-                <img src="#" alt="title" class="good-item_img" height="150">
-                <span class="good-item_title">Title</span>
-                <span class="good-item_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, reiciendis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque nam, impedit, libero deserunt nobis alias amet non voluptatem architecto ex, magnam sequi ducimus omnis reprehenderit repellat iusto vitae officia animi!</span>
-                <span class="good-item_price">Price</span>
-                <button class="button-add">Add</button>
-            </div>
-            <div class="good-item">
-                <img src="#" alt="title" class="good-item_img" height="150">
-                <span class="good-item_title">Title</span>
-                <span class="good-item_description">Lorem ipsum dolor sit amet.</span>
-                <span class="good-item_price">Price</span>
-                <button class="button-add">Add</button>
-            </div>
-            <div class="good-item">
-                <img src="#" alt="title" class="good-item_img" height="150">
-                <span class="good-item_title">Title</span>
-                <span class="good-item_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, eius!</span>
-                <span class="good-item_price">Price</span>
-                <button class="button-add">Add</button>
-            </div>
-            <div class="good-item">
-                <img src="#" alt="title" class="good-item_img" height="150">
-                <span class="good-item_title">Title</span>
-                <span class="good-item_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, reiciendis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque nam, impedit, libero deserunt nobis alias amet non voluptatem architecto ex, magnam sequi ducimus omnis reprehenderit repellat iusto vitae officia animi!</span>
-                <span class="good-item_price">Price</span>
-                <button class="button-add">Add</button>
-            </div>
-            <div class="good-item">
-                <img src="#" alt="title" class="good-item_img" height="150">
-                <span class="good-item_title">Title</span>
-                <span class="good-item_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta iure, tempora, expedita adipisci quos ipsam.</span>
-                <span class="good-item_price">Price</span>
-                <button class="button-add">Add</button>
-            </div>
-        </section>
-        <form action="#" class="feedback-form">
-            <div class="feedback">
-                <span class="feedback_title">Contact us</span>
-                <label for="" class="field">
-                    <span class="field_title">Name:</span>
-                    <span class="field_error">The name must contain only letters.</span>
-                    <input type="text" class="field_enter name">
-                </label>
-                <label for="" class="field">
-                    <span class="field_title">Phone:</span>
-                    <span class="field_error">The phone should look like +7(000)000-0000</span>
-                    <input type="text" class="field_enter phone">
-                </label>
-                <label for="" class="field">
-                    <span class="field_title">E-mail:</span>
-                    <span class="field_error">E-mail must look like this mymail@mail.ru, or my.mail@mail.ru, or my-mail@mail.ru</span>
-                    <input type="text" class="field_enter mail">
-                </label>
-                <label for="" class="field">
-                    <span class="field_title">Comment:</span>
-                    <span class="field_error">Must contain at least 1 character.</span>
-                    <textarea class="field_enter comment"></textarea>
-                </label>   
-                <input type="submit" class="feedback-form_submit-button" value="Submit">             
-            </div>
-        </form>
-    </main>
-    <footer class="footer">
-        <span class="copyright">copyright 2020 all rights reserved</span>
-    </footer>
+            <section class="goods-list" v-if="products.length">
+                <div class="good-item" v-for="product of products" :key="product.id_product">
+                    <img :src="product.img ? product.img : imgCatalog" alt="title" class="good-item_img" height="150">
+                    <span class="good-item_title">{{product.product_name}}</span>
+                    <span class="good-item_description">{{product.description ? product.description : 'Description'}}</span>
+                    <span class="good-item_price">{{product.price}}</span>
+                    <button class="button-add" @click="addProduct(product)">Add</button>
+                </div>
+            </section>
+            <section class="goods-list" v-else>{{dummyNoData}}</section>
+            <form action="#" class="feedback-form">
+                <div class="feedback">
+                    <span class="feedback_title">Contact us</span>
+                    <label for="" class="field">
+                        <span class="field_title">Name:</span>
+                        <span class="field_error">The name must contain only letters.</span>
+                        <input type="text" class="field_enter name">
+                    </label>
+                    <label for="" class="field">
+                        <span class="field_title">Phone:</span>
+                        <span class="field_error">The phone should look like +7(000)000-0000</span>
+                        <input type="text" class="field_enter phone">
+                    </label>
+                    <label for="" class="field">
+                        <span class="field_title">E-mail:</span>
+                        <span class="field_error">E-mail must look like this mymail@mail.ru, or my.mail@mail.ru, or my-mail@mail.ru</span>
+                        <input type="text" class="field_enter mail">
+                    </label>
+                    <label for="" class="field">
+                        <span class="field_title">Comment:</span>
+                        <span class="field_error">Must contain at least 1 character.</span>
+                        <textarea class="field_enter comment"></textarea>
+                    </label>   
+                    <input type="submit" class="feedback-form_submit-button" value="Submit">             
+                </div>
+            </form>
+        </main>
+        <footer class="footer">
+            <span class="copyright">copyright 2020 all rights reserved</span>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
