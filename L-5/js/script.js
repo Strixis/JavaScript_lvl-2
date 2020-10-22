@@ -41,13 +41,12 @@ const app = new Vue({
                 this.products = this.productsFromServer.filter((product) => product.product_name.toLowerCase().includes(this.searchLine.toLowerCase()));
             }
         },
-        toggleBasket(event) {
+        toggleBasket() {
             if (this.isVisibleBasket) {
                 this.isVisibleBasket = false;
             } else {
                 this.isVisibleBasket = true;
             }
-            
         },
         addProduct(product) {
             this.getJson(`${API + this.addProductUrl}`)
@@ -93,7 +92,7 @@ const app = new Vue({
             results.push(this.isValidPhone);
             results.push(this.isValidMail);
             results.push(this.isValidComment);
-            
+
             this.validationResults = results;
             if (!results.includes(false)) {
                 event.preventDefault();
