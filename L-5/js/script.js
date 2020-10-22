@@ -18,6 +18,12 @@ const app = new Vue({
         removeProductUrl: `/deleteFromBasket.json`,
         basketProducts: [],
         isVisibleBasket: false,
+        
+        nameValue: '',
+        phoneValue: '',
+        mailValue: '',
+        commentValue: '',
+        validationResults: [true, true, true, true],
     },
     
     methods: {
@@ -27,6 +33,13 @@ const app = new Vue({
                .catch(error => {
                     console.log(error);
             })
+        },
+        filterProducts() {
+            if (this.searchLine === '') {
+                this.products = this.productsFromServer;
+            } else {
+                this.products = this.productsFromServer.filter((product) => product.product_name.toLowerCase().includes(this.searchLine.toLowerCase()));
+            }
         },
         toggleBasket(event) {
             if (this.isVisibleBasket) {
@@ -73,17 +86,38 @@ const app = new Vue({
                     }
             })
         },
-        filterProducts() {
-            if (this.searchLine === '') {
-                this.products = this.productsFromServer;
+        validate(event) {
+            const results = [];
+            
+            results.push(this.isValidName);
+            results.push(this.isValidPhone);
+            results.push(this.isValidMail);
+            results.push(this.isValidComment);
+            
+            this.validationResults = results;
+            if (!results.includes(false)) {
+                event.preventDefault();
+                alert('Данные отправлены!');
             } else {
-                this.products = this.productsFromServer.filter((product) => product.product_name.toLowerCase().includes(this.searchLine.toLowerCase()));
+                event.preventDefault();
             }
         }
     },
     computed: {
         calculateCost() {
             return this.basketProducts.reduce((accumulator, currentValue) => {return accumulator + (currentValue.price * currentValue.quantity)}, 0);
+        },
+        isValidName() {
+            return this.nameValue.match(/^[a-zA-Zа-яА-яЁё]+$/) === null ? false : true;
+        },
+        isValidPhone() {
+            return this.phoneValue.match(/^(\+\d\(\d{3}\)\d{3}-\d{4})$/) === null ? false : true;
+        },
+        isValidMail() {
+            return this.mailValue.match(/^[a-z]{2}[\.-]?[a-z]+@[a-z]+\.[a-z]{2,6}$/) === null ? false : true;
+        },
+        isValidComment() {
+            return this.commentValue.match(/.+/) === null ? false : true;
         }
     },
     mounted() {
