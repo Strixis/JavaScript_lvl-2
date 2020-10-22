@@ -34,6 +34,12 @@
 .logo {
   display: flex;
 }
+.logo:hover .circle {
+  background: #e5f3ff;
+}
+.logo:active .circle {
+  background: #d0e5f8;
+}
 .circle {
   width: 22px;
   height: 22px;
@@ -55,6 +61,9 @@
   padding: 3px;
   box-sizing: border-box;
 }
+.search-form_search-field:focus {
+  border: 1px solid #d0e5f8;
+}
 .search-form_submit-button {
   width: 100px;
   height: 22px;
@@ -68,6 +77,12 @@
   padding: 0;
   margin: 0 0 0 20px;
 }
+.search-form_submit-button:hover {
+  background: #e5f3ff;
+}
+.search-form_submit-button:active {
+  background: #d0e5f8;
+}
 .basket-button {
   width: 100px;
   height: 22px;
@@ -79,6 +94,12 @@
   border-radius: 11px;
   outline: none;
   padding: 0;
+}
+.basket-button:hover {
+  background: #e5f3ff;
+}
+.basket-button:active {
+  background: #d0e5f8;
 }
 .basket-wrapper {
   max-width: 1320px;
@@ -143,6 +164,12 @@
   line-height: 16px;
   color: #000;
   margin: 17px 0 0 0;
+}
+.remove-button:hover {
+  background: #e5f3ff;
+}
+.remove-button:active {
+  background: #d0e5f8;
 }
 .total-cost {
   display: block;
@@ -222,6 +249,12 @@
   color: #000;
   margin: 17px 0 0 0;
 }
+.button-add:hover {
+  background: #e5f3ff;
+}
+.button-add:active {
+  background: #d0e5f8;
+}
 .feedback-form {
   max-width: 1320px;
   background: linear-gradient(180deg, rgba(208, 229, 248, 0.6) 0%, rgba(220, 224, 228, 0.8) 50%, #CACACA 100%);
@@ -243,6 +276,12 @@
   outline: none;
   padding: 0;
   margin: 30px 0 0 0;
+}
+.feedback-form_submit-button:hover {
+  background: #e5f3ff;
+}
+.feedback-form_submit-button:active {
+  background: #d0e5f8;
 }
 .feedback {
   width: 70%;
@@ -280,6 +319,9 @@
   outline: none;
   padding: 3px 7px;
   margin: 11px 0 0 0;
+}
+.field_enter:focus {
+  border: 1px solid #d0e5f8;
 }
 #comment {
   min-height: 70px;

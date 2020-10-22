@@ -40,6 +40,12 @@
 
 .logo {
     display: flex;
+    &:hover .circle {
+        background: #e5f3ff;
+    }
+    &:active .circle {
+        background: #d0e5f8;
+    }
 }
 
 .circle {
@@ -62,6 +68,9 @@
         border: none;
         padding: 3px;
         box-sizing: border-box;
+        &:focus {
+            border: 1px solid #d0e5f8;
+        }
     }
     &_submit-button {
         width: 100px;
@@ -75,6 +84,12 @@
         outline: none;
         padding: 0;
         margin: 0 0 0 20px;
+        &:hover {
+            background: #e5f3ff;
+        }
+        &:active {
+            background: #d0e5f8;
+        }
     }
 }
 
@@ -89,6 +104,12 @@
     border-radius: 11px;
     outline: none;
     padding: 0;
+    &:hover {
+        background: #e5f3ff;
+    }
+    &:active {
+        background: #d0e5f8;
+    }
 }
 
 .basket-wrapper {
@@ -159,6 +180,12 @@
     line-height: 16px;
     color: #000;
     margin: 17px 0 0 0;
+    &:hover {
+        background: #e5f3ff;
+    }
+    &:active {
+        background: #d0e5f8;
+    }
 }
 
 .total-cost {
@@ -241,6 +268,12 @@
     line-height: 16px;
     color: #000;
     margin: 17px 0 0 0;
+    &:hover {
+        background: #e5f3ff;
+    }
+    &:active {
+        background: #d0e5f8;
+    }
 }
 
 .feedback-form {
@@ -263,6 +296,12 @@
         outline: none;
         padding: 0;
         margin: 30px 0 0 0;
+        &:hover {
+            background: #e5f3ff;
+        }
+        &:active {
+            background: #d0e5f8;
+        }
     }
 }
 
@@ -302,6 +341,9 @@
         outline: none;
         padding: 3px 7px;
         margin: 11px 0 0 0;
+        &:focus {
+            border: 1px solid #d0e5f8;
+        }
     }
 }
 
