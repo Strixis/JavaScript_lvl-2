@@ -19,35 +19,11 @@
                     <input type="submit" class="search-form_submit-button" value="Search" @click.prevent="filterProducts">
                 </form>
             </nav>
-            <button class="basket-button" @click="toggleBasket">Basket</button>
+            <button class="basket-button" @click="$root.$refs.basket.toggleBasket()">Basket</button>
         </header>
         <main>
-            <div class="basket-wrapper">
-                <div class="basket" :class="{__hidden: isVisibleBasket}"></div>
-                <div class="basket basket_with-goods" v-show="isVisibleBasket">
-                    <div class="basket_items">
-                        <div class="basket-item" v-for="product of basketProducts" :key="product.product_id">
-                            <span class="basket-item_title">{{product.product_name}}</span>
-                            <span class="basket-item_price">Цена: {{product.price}}р</span>
-                            <span class="basket-item_quantity">Количество: {{product.quantity}}</span>
-                            <span class="basket-item_cost">Стоимость: {{product.quantity * product.price}}р</span>
-                            <button class="remove-button" @click="removeProduct(product)">Удалить</button>
-                        </div>
-                    </div>
-                    <span class="total-cost" v-if="basketProducts.length > 0">Общая стоимость: {{calculateCost}}р</span>
-                    <span class="total-cost" v-else>Empty</span>
-                </div>
-            </div>
-            <section class="goods-list" v-if="products.length">
-                <div class="good-item" v-for="product of products" :key="product.id_product">
-                    <img :src="product.img ? product.img : imgCatalog" alt="title" class="good-item_img" height="150">
-                    <span class="good-item_title">{{product.product_name}}</span>
-                    <span class="good-item_description">{{product.description ? product.description : 'Description'}}</span>
-                    <span class="good-item_price">{{product.price}}</span>
-                    <button class="button-add" @click="addProduct(product)">Add</button>
-                </div>
-            </section>
-            <section class="goods-list" v-else>{{dummyNoData}}</section>
+            <basket ref="basket"></basket>
+            <product-list ref="product-list"></product-list>
             <form action="#" class="feedback-form">
                 <div class="feedback">
                     <span class="feedback_title">Contact us</span>
@@ -80,6 +56,8 @@
         </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/ProductListComponent.js"></script>
+    <script src="js/BasketComponent.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
