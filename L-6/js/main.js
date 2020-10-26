@@ -3,6 +3,8 @@ const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-a
 const app = new Vue({
     el: '#app',
     data: {
+        serverError: '',
+        
         nameValue: '',
         phoneValue: '',
         mailValue: '',
@@ -15,6 +17,7 @@ const app = new Vue({
             return fetch(url)
                .then(response => response.json())
                .catch(error => {
+                    this.serverError = error;
                     console.log(error);
             })
         },

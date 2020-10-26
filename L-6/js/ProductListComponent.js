@@ -8,15 +8,6 @@ Vue.component('product-list', {
             dummyNoData: 'Нет данных',
         }
     },
-//    methods: {
-//        filterProducts() {
-//            if (this.$parent.searchLine === '') {
-//                this.products = this.productsFromServer;
-//            } else {
-//                this.products = this.productsFromServer.filter((product) => product.product_name.toLowerCase().includes(this.searchLine.toLowerCase()));
-//            }
-//        },
-//    },
     mounted() {
         this.$root.getJson(`${API + this.catalogUrl}`)
             .then((data) => {

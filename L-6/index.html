@@ -51,11 +51,13 @@
         <footer class="footer">
             <span class="copyright">copyright 2020 all rights reserved</span>
         </footer>
+        <server-error ref="server-error" v-if="serverError !== ''"></server-error>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="js/ProductListComponent.js"></script>
     <script src="js/BasketComponent.js"></script>
     <script src="js/SearchComponent.js"></script>
+    <script src="js/serverErrorComponent.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

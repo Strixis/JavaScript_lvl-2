@@ -16,6 +16,22 @@
 .field_error {
   color: red !important;
 }
+#app {
+  position: relative;
+}
+.server-error {
+  position: absolute;
+  top: 0;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(208, 229, 248, 0.8);
+  color: red;
+  font-size: 24px;
+}
 .header {
   display: flex;
   align-items: center;
