@@ -21,32 +21,7 @@
         <main>
             <basket ref="basket"></basket>
             <product-list ref="product-list"></product-list>
-            <form action="#" class="feedback-form">
-                <div class="feedback">
-                    <span class="feedback_title">Contact us</span>
-                    <label for="name" class="field">
-                        <span class="field_title">Name:</span>
-                        <span class="field_error" v-show="!validationResults[0]">The name must contain only letters.</span>
-                        <input type="text" class="field_enter" id="name" v-model.lazy="nameValue" :class="{__error: !validationResults[0]}">
-                    </label>
-                    <label for="phone" class="field">
-                        <span class="field_title">Phone:</span>
-                        <span class="field_error" v-show="!validationResults[1]">The phone should look like +7(000)000-0000</span>
-                        <input type="text" class="field_enter" id="phone" v-model.lazy="phoneValue" :class="{__error: !validationResults[1]}">
-                    </label>
-                    <label for="mail" class="field">
-                        <span class="field_title">E-mail:</span>
-                        <span class="field_error" v-show="!validationResults[2]">E-mail must look like this mymail@mail.ru, or my.mail@mail.ru, or my-mail@mail.ru</span>
-                        <input type="text" class="field_enter" id="mail" v-model.lazy="mailValue" :class="{__error: !validationResults[2]}">
-                    </label>
-                    <label for="comment" class="field">
-                        <span class="field_title">Comment:</span>
-                        <span class="field_error" v-show="!validationResults[3]">Must contain at least 1 character.</span>
-                        <textarea class="field_enter" id="comment" v-model.lazy="commentValue" :class="{__error: !validationResults[3]}"></textarea>
-                    </label>   
-                    <input type="submit" class="feedback-form_submit-button" value="Submit" @click="validate($event)">             
-                </div>
-            </form>
+            <feedback-form ref="feedback-form"></feedback-form>
         </main>
         <footer class="footer">
             <span class="copyright">copyright 2020 all rights reserved</span>
@@ -57,7 +32,8 @@
     <script src="js/ProductListComponent.js"></script>
     <script src="js/BasketComponent.js"></script>
     <script src="js/SearchComponent.js"></script>
-    <script src="js/serverErrorComponent.js"></script>
+    <script src="js/ServerErrorComponent.js"></script>
+    <script src="js/FeedbackFormComponent.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
