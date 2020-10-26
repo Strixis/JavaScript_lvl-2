@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <nav class="navigation">
+                <a href="index.html" class="logo">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </a>
+                <form action="" class="search-form">
+                    <input type="text" class="search-form_search-field" v-model.lazy="searchLine">
+                    <input type="submit" class="search-form_submit-button" value="Search" @click.prevent="filterProducts">
+                </form>
+            </nav>
+            <button class="basket-button" @click="toggleBasket">Basket</button>
+        </header>
+        <main>
+            <div class="basket-wrapper">
+                <div class="basket" :class="{__hidden: isVisibleBasket}"></div>
+                <div class="basket basket_with-goods" v-show="isVisibleBasket">
+                    <div class="basket_items">
+                        <div class="basket-item" v-for="product of basketProducts" :key="product.product_id">
+                            <span class="basket-item_title">{{product.product_name}}</span>
+                            <span class="basket-item_price">Цена: {{product.price}}р</span>
+                            <span class="basket-item_quantity">Количество: {{product.quantity}}</span>
+                            <span class="basket-item_cost">Стоимость: {{product.quantity * product.price}}р</span>
+                            <button class="remove-button" @click="removeProduct(product)">Удалить</button>
+                        </div>
+                    </div>
+                    <span class="total-cost" v-if="basketProducts.length > 0">Общая стоимость: {{calculateCost}}р</span>
+                    <span class="total-cost" v-else>Empty</span>
+                </div>
+            </div>
+            <section class="goods-list" v-if="products.length">
+                <div class="good-item" v-for="product of products" :key="product.id_product">
+                    <img :src="product.img ? product.img : imgCatalog" alt="title" class="good-item_img" height="150">
+                    <span class="good-item_title">{{product.product_name}}</span>
+                    <span class="good-item_description">{{product.description ? product.description : 'Description'}}</span>
+                    <span class="good-item_price">{{product.price}}</span>
+                    <button class="button-add" @click="addProduct(product)">Add</button>
+                </div>
+            </section>
+            <section class="goods-list" v-else>{{dummyNoData}}</section>
+            <form action="#" class="feedback-form">
+                <div class="feedback">
+                    <span class="feedback_title">Contact us</span>
+                    <label for="name" class="field">
+                        <span class="field_title">Name:</span>
+                        <span class="field_error" v-show="!validationResults[0]">The name must contain only letters.</span>
+                        <input type="text" class="field_enter" id="name" v-model.lazy="nameValue" :class="{__error: !validationResults[0]}">
+                    </label>
+                    <label for="phone" class="field">
+                        <span class="field_title">Phone:</span>
+                        <span class="field_error" v-show="!validationResults[1]">The phone should look like +7(000)000-0000</span>
+                        <input type="text" class="field_enter" id="phone" v-model.lazy="phoneValue" :class="{__error: !validationResults[1]}">
+                    </label>
+                    <label for="mail" class="field">
+                        <span class="field_title">E-mail:</span>
+                        <span class="field_error" v-show="!validationResults[2]">E-mail must look like this mymail@mail.ru, or my.mail@mail.ru, or my-mail@mail.ru</span>
+                        <input type="text" class="field_enter" id="mail" v-model.lazy="mailValue" :class="{__error: !validationResults[2]}">
+                    </label>
+                    <label for="comment" class="field">
+                        <span class="field_title">Comment:</span>
+                        <span class="field_error" v-show="!validationResults[3]">Must contain at least 1 character.</span>
+                        <textarea class="field_enter" id="comment" v-model.lazy="commentValue" :class="{__error: !validationResults[3]}"></textarea>
+                    </label>   
+                    <input type="submit" class="feedback-form_submit-button" value="Submit" @click="validate($event)">             
+                </div>
+            </form>
+        </main>
+        <footer class="footer">
+            <span class="copyright">copyright 2020 all rights reserved</span>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
