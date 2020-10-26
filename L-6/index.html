@@ -14,10 +14,7 @@
                     <div class="circle"></div>
                     <div class="circle"></div>
                 </a>
-                <form action="" class="search-form">
-                    <input type="text" class="search-form_search-field" v-model.lazy="searchLine">
-                    <input type="submit" class="search-form_submit-button" value="Search" @click.prevent="filterProducts">
-                </form>
+                <search ref="search"></search>
             </nav>
             <button class="basket-button" @click="$root.$refs.basket.toggleBasket()">Basket</button>
         </header>
@@ -58,6 +55,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="js/ProductListComponent.js"></script>
     <script src="js/BasketComponent.js"></script>
+    <script src="js/SearchComponent.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

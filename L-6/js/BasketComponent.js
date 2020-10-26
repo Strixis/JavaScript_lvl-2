@@ -13,7 +13,7 @@ Vue.component('basket', {
             this.isVisibleBasket = !this.isVisibleBasket;
         },
         addProduct(product) {
-            this.$parent.getJson(`${API + this.addProductUrl}`)
+            this.$root.getJson(`${API + this.addProductUrl}`)
                 .then((data) => {
                     if (data.result === 1) {
                         const alreadyExistProduct = this.basketProducts.find((good) => {
@@ -29,7 +29,7 @@ Vue.component('basket', {
             })
         },
         removeProduct(product) {
-           this.$parent.getJson(`${API + this.removeProductUrl}`)
+           this.$root.getJson(`${API + this.removeProductUrl}`)
                 .then((data) => {
                     if (data.result === 1) {
                         if (product.quantity > 1) {
@@ -48,7 +48,7 @@ Vue.component('basket', {
         },
     },
     mounted() {
-        this.$parent.getJson(`${API + this.basketUrl}`)
+        this.$root.getJson(`${API + this.basketUrl}`)
             .then((data) => {
                 for (let elem of data.contents) {
                     this.basketProducts.push(elem);

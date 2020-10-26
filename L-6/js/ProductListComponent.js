@@ -8,17 +8,17 @@ Vue.component('product-list', {
             dummyNoData: 'Нет данных',
         }
     },
-    methods: {
-        filterProducts() {
-            if (this.$parent.searchLine === '') {
-                this.products = this.productsFromServer;
-            } else {
-                this.products = this.productsFromServer.filter((product) => product.product_name.toLowerCase().includes(this.searchLine.toLowerCase()));
-            }
-        },
-    },
+//    methods: {
+//        filterProducts() {
+//            if (this.$parent.searchLine === '') {
+//                this.products = this.productsFromServer;
+//            } else {
+//                this.products = this.productsFromServer.filter((product) => product.product_name.toLowerCase().includes(this.searchLine.toLowerCase()));
+//            }
+//        },
+//    },
     mounted() {
-        this.$parent.getJson(`${API + this.catalogUrl}`)
+        this.$root.getJson(`${API + this.catalogUrl}`)
             .then((data) => {
                 for (let elem of data) {
                         this.productsFromServer.push(elem);
