@@ -12,7 +12,6 @@ const app = new Vue({
                .then(response => response.json())
                .catch(error => {
                     this.serverError = error;
-                    console.log(error);
             })
         },
         postJson(url, data){
@@ -25,7 +24,7 @@ const app = new Vue({
             })
                 .then(result => result.json())
                 .catch(error => {
-                    this.$refs.error.text = error;
+                    this.serverError = error;
                 })
         },
         putJson(url, data){
@@ -38,7 +37,20 @@ const app = new Vue({
             })
                 .then(result => result.json())
                 .catch(error => {
-                    this.$refs.error.text = error;
+                    this.serverError = error;
+                })
+        },
+        deleteJson(url, data){
+            return fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+                .then(result => result.json())
+                .catch(error => {
+                    this.serverError = error;
                 })
         },
     },

@@ -11,26 +11,46 @@ Vue.component('basket', {
     methods: {
         toggleBasket() {
             this.isVisibleBasket = !this.isVisibleBasket;
+            console.log(this.basketProducts);
         },
         addProduct(product) {
             let alreadyExistProduct = this.basketProducts.find(good => good.id_product === product.id_product);
-            if(alreadyExistProduct){
+            if (alreadyExistProduct){
                 this.$root.putJson(`/api/cart/${alreadyExistProduct.id_product}`, {quantity: 1})
                     .then(data => {
                         if(data.result === 1){
-                            alreadyExistProduct.quantity++
+                            alreadyExistProduct.quantity++;
                         }
                     })
             } else {
-                const newProduct = Object.assign({quantity: 1}, product);
+                let newProduct = Object.assign({quantity: 1}, product);
                 this.$root.postJson(`/api/cart`, newProduct)
                     .then(data => {
                         if(data.result === 1){
-                            this.basketProducts.push(newProduct)
+                            this.basketProducts.push(newProduct);
                         }
                     })
             }
         },
+        removeProduct(product) {
+            if (product.quantity > 1) {
+                this.$root.putJson(`/api/cart/${product.id_product}`, {quantity: -1})
+                    .then(data => {
+                        if(data.result === 1){
+                            product.quantity--;
+                        }
+                    })
+            } else {
+                let productIndex = this.basketProducts.indexOf(product);
+                this.$root.deleteJson(`/api/cart`, product)
+                    .then(data => {
+                        if(data.result === 1){
+                            this.basketProducts.splice(productIndex, 1);
+                        }
+                    })
+            }
+        },
+        /*
         removeProduct(product) {
            this.$root.getJson(`${API + this.removeProductUrl}`)
                 .then((data) => {
@@ -44,6 +64,7 @@ Vue.component('basket', {
                     }
             })
         },
+        */
     },
     computed: {
         calculateCost() {
