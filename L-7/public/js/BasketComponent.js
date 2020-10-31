@@ -1,9 +1,6 @@
 Vue.component('basket', {
     data() {
         return {
-           basketUrl: `/getBasket.json`,
-            addProductUrl: `/addToBasket.json`,
-            removeProductUrl: `/deleteFromBasket.json`,
             basketProducts: [],
             isVisibleBasket: false, 
         }
@@ -11,9 +8,13 @@ Vue.component('basket', {
     methods: {
         toggleBasket() {
             this.isVisibleBasket = !this.isVisibleBasket;
-            console.log(this.basketProducts);
         },
         addProduct(product) {
+            this.$root.postJson(`/api/statistic`, {
+                action: 'add',
+                product_name: `${product.product_name}`,
+                date: `${new Date}`
+            });
             let alreadyExistProduct = this.basketProducts.find(good => good.id_product === product.id_product);
             if (alreadyExistProduct){
                 this.$root.putJson(`/api/cart/${alreadyExistProduct.id_product}`, {quantity: 1})
@@ -30,9 +31,14 @@ Vue.component('basket', {
                             this.basketProducts.push(newProduct);
                         }
                     })
-            }
+            };
         },
         removeProduct(product) {
+            this.$root.postJson(`/api/statistic`, {
+                action: 'remove',
+                product_name: `${product.product_name}`,
+                date: `${new Date}`
+            });
             if (product.quantity > 1) {
                 this.$root.putJson(`/api/cart/${product.id_product}`, {quantity: -1})
                     .then(data => {
@@ -50,21 +56,6 @@ Vue.component('basket', {
                     })
             }
         },
-        /*
-        removeProduct(product) {
-           this.$root.getJson(`${API + this.removeProductUrl}`)
-                .then((data) => {
-                    if (data.result === 1) {
-                        if (product.quantity > 1) {
-                            product.quantity--;
-                        } else {
-                            let productIndex = this.basketProducts.indexOf(product);
-                            this.basketProducts.splice(productIndex, 1);
-                        }
-                    }
-            })
-        },
-        */
     },
     computed: {
         calculateCost() {

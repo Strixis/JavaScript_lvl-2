@@ -2,16 +2,12 @@ const express = require('express');
 const fs = require('fs');
 const app = express();
 const cart = require('./cartRouter');
+const statistic = require('./statisticRouter');
 
 app.use(express.json());
 app.use('/', express.static('public'));
 app.use('/api/cart', cart);
-
-
-// app.get();
-// app.post();
-// app.put();
-// app.delete();
+app.use('/api/statistic', statistic);
 
 app.get('/api/products', (req, res) => {
     fs.readFile('server/db/products.json', 'utf-8', (err, data) => {
@@ -22,11 +18,6 @@ app.get('/api/products', (req, res) => {
         }
     })
 });
-
-// app.get('/api/cart/:id', (req, res) => {
-//    // res.send(req.params.id);
-//     res.send(req.query);
-// });
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listen on port ${port}...`));

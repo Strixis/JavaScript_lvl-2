@@ -9,7 +9,7 @@ let change = (cart, req) => {
 };
 let remove = (cart, req) => {
     let productIndex = cart.contents.indexOf(req.body);
-	cart.contents.splice(rproductIndex, 1);
+	cart.contents.splice(productIndex, 1);
     return JSON.stringify(cart, null, 4);
 };
 let decrease = (cart, req) => {

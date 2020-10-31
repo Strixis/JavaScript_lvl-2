@@ -1,7 +1,6 @@
 Vue.component('product-list', {
     data() {
         return {
-            catalogUrl: `/catalogData.json`,
             productsFromServer: [],
             products: [],
             imgCatalog: 'img/sharp.jpeg',
