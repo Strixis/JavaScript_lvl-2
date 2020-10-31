@@ -30,21 +30,6 @@ Vue.component('basket', {
                         }
                     })
             }
-            /*
-            this.$root.getJson(`${API + this.addProductUrl}`)
-                .then((data) => {
-                    if (data.result === 1) {
-                        const alreadyExistProduct = this.basketProducts.find((good) => {
-                            return good.id_product === product.id_product;
-                        })
-                        if (alreadyExistProduct) {
-                            alreadyExistProduct.quantity++;
-                        } else {
-                            let newProduct = Object.assign({quantity: 1}, product)
-                            this.basketProducts.push(newProduct);
-                        }
-                    }
-            })*/
         },
         removeProduct(product) {
            this.$root.getJson(`${API + this.removeProductUrl}`)
@@ -66,7 +51,7 @@ Vue.component('basket', {
         },
     },
     mounted() {
-        this.$root.getJson(`${API + this.basketUrl}`)
+        this.$root.getJson(`api/cart`)
             .then((data) => {
                 for (let elem of data.contents) {
                     this.basketProducts.push(elem);
