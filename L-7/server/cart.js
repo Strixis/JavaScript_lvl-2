@@ -17,8 +17,8 @@ let change = (cart, req) => {
     return JSON.stringify(cart, null, 4);
 };
 let remove = (cart, req) => {
-    let productIndex = cart.contents.indexOf(req.body);
-	cart.contents.splice(productIndex, 1);
+    let find = cart.contents.findIndex(el => el.id_product === +req.params.id);
+	cart.contents.splice(find, 1);
     cart.countGoods--;
     cart.amount -= req.body.price;
     return JSON.stringify(cart, null, 4);

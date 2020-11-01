@@ -2,6 +2,7 @@ Vue.component('basket', {
     data() {
         return {
             basketProducts: [],
+            totalCost: 0,
             isVisibleBasket: false, 
         }
     },
@@ -32,6 +33,7 @@ Vue.component('basket', {
                         }
                     })
             };
+            this.setTotalCost();
         },
         removeProduct(product) {
             this.$root.postJson(`/api/statistic`, {
@@ -48,18 +50,20 @@ Vue.component('basket', {
                     })
             } else {
                 let productIndex = this.basketProducts.indexOf(product);
-                this.$root.deleteJson(`/api/cart`, product)
+                this.$root.deleteJson(`/api/cart/${product.id_product}`, product)
                     .then(data => {
                         if(data.result === 1){
                             this.basketProducts.splice(productIndex, 1);
                         }
                     })
             }
+            this.setTotalCost();
         },
-    },
-    computed: {
-        calculateCost() {
-            return this.basketProducts.reduce((accumulator, currentValue) => {return accumulator + (currentValue.price * currentValue.quantity)}, 0);
+        setTotalCost() {
+            this.$root.getJson(`api/cart`)
+                .then((data) => {
+                    this.totalCost = data.amount;
+            });
         },
     },
     mounted() {
@@ -67,7 +71,8 @@ Vue.component('basket', {
             .then((data) => {
                 for (let elem of data.contents) {
                     this.basketProducts.push(elem);
-                }
+                };
+                this.totalCost = data.amount;
         });
     },
     template: `<div class="basket-wrapper">
@@ -81,7 +86,7 @@ Vue.component('basket', {
                         @removeProduct="removeProduct">
                         </basket-item>
                     </div>
-                    <span class="total-cost" v-if="basketProducts.length > 0">Общая стоимость: {{calculateCost}}р</span>
+                    <span class="total-cost" v-if="basketProducts.length > 0">Общая стоимость: {{totalCost}}р</span>
                     <span class="total-cost" v-else>Empty</span>
                 </div>
             </div>`
