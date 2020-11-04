@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <nav class="navigation">
+                <a href="index.html" class="logo">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </a>
+                <search ref="search"></search>
+            </nav>
+            <button class="basket-button" @click="$root.$refs.basket.toggleBasket()">Basket</button>
+        </header>
+        <main>
+            <basket ref="basket"></basket>
+            <product-list ref="product-list"></product-list>
+            <feedback-form ref="feedback-form"></feedback-form>
+        </main>
+        <footer class="footer">
+            <span class="copyright">copyright 2020 all rights reserved</span>
+        </footer>
+        <server-error ref="server-error" v-if="serverError !== ''"></server-error>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/ProductListComponent.js"></script>
+    <script src="js/BasketComponent.js"></script>
+    <script src="js/SearchComponent.js"></script>
+    <script src="js/ServerErrorComponent.js"></script>
+    <script src="js/FeedbackFormComponent.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
