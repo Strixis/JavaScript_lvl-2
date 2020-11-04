@@ -1,4 +1,4 @@
-Vue.component('feedback-form', {
+const feedbackForm = {
     data() {
         return {
             nameValue: '',
@@ -66,4 +66,6 @@ Vue.component('feedback-form', {
                     <input type="submit" class="feedback-form_submit-button" value="Submit" @click="validate($event)">             
                 </div>
             </form>`
-})
+};
+
+export default feedbackForm;

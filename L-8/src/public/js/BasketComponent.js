@@ -1,4 +1,18 @@
-Vue.component('basket', {
+const basketItem = {
+    props: ['basketItem'],
+    template: `<div>
+                    <span class="basket-item_title">{{basketItem.product_name}}</span>
+                    <span class="basket-item_price">Цена: {{basketItem.price}}р</span>
+                    <span class="basket-item_quantity">Количество: {{basketItem.quantity}}</span>
+                    <span class="basket-item_cost">Стоимость: {{basketItem.quantity * basketItem.price}}р</span>
+                    <button class="remove-button" @click="$emit('removeProduct', basketItem)">Удалить</button>
+                </div>`
+};
+
+const basket = {
+    components: {
+        basketItem
+    },
     data() {
         return {
             basketProducts: [],
@@ -90,15 +104,6 @@ Vue.component('basket', {
                     <span class="total-cost" v-else>Empty</span>
                 </div>
             </div>`
-});
+};
 
-Vue.component('basket-item', {
-    props: ['basketItem'],
-    template: `<div>
-                    <span class="basket-item_title">{{basketItem.product_name}}</span>
-                    <span class="basket-item_price">Цена: {{basketItem.price}}р</span>
-                    <span class="basket-item_quantity">Количество: {{basketItem.quantity}}</span>
-                    <span class="basket-item_cost">Стоимость: {{basketItem.quantity * basketItem.price}}р</span>
-                    <button class="remove-button" @click="$emit('removeProduct', basketItem)">Удалить</button>
-                </div>`
-})
+export default basket;

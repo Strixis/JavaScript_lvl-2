@@ -1,5 +1,18 @@
-const app = new Vue({
+import basket from './BasketComponent'
+import productList from './ProductListComponent'
+import serverError from './ServerErrorComponent'
+import search from './SearchComponent'
+import feedbackForm from './FeedbackFormComponent'
+
+const app = {
     el: '#app',
+    components: {
+        basket,
+        productList,
+        serverError,
+        search,
+        feedbackForm
+    },
     data: {
         serverError: '',
     },
@@ -52,4 +65,6 @@ const app = new Vue({
                 })
         },
     },
-});
+};
+
+export default app;

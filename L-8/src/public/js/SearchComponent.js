@@ -1,4 +1,4 @@
-Vue.component('search', {
+const search = {
     data() {
         return {
             searchLine: '',
@@ -18,4 +18,6 @@ Vue.component('search', {
                     <input type="text" class="search-form_search-field" v-model.lazy="searchLine">
                     <input type="submit" class="search-form_submit-button" value="Search" @click.prevent="filterProducts">
                 </form>`
-})
+};
+
+export default search;
