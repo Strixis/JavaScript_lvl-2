@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const router = express.Router();
 const handlerStats = require('./handlerStats');
+const path = require('path');
 
 const statsJSONPath = path.resolve(__dirname, './db/stats.json');
 

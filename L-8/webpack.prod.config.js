@@ -2,34 +2,33 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniSccExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports {
+module.exports = {
 	entry: {
 		main: "./src/public/index.js"
 	},
 	output: {
 		path: path.join(__dirname, 'dist/public'),
 		publicPath: "/",
-		fileName: "js/[name].js"
+		filename: "js/[name].js"
 	},
 	target: "web",
-	devTool: "#source-map",
+	devtool: "source-map",
 	module: {
 		rules: [
 			{
 				test: /\.html$/,
 				use: [
 					{
-						loader: html-loader,
+						loader: 'html-loader',
 						options: {
 							minimize: true
 						}
 					}
 				]
 			},
-
 			{
 				test: /\.css$/,
-				use: [MiniSccExtractPlugin.loader, 'scc-loader']
+				use: [MiniSccExtractPlugin.loader, 'css-loader']
 			},
 			{
 				test: /\.(png|jpg|jpeg|svg|gif)$/,
@@ -40,11 +39,11 @@ module.exports {
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: 'src/public/index.html',
-			fileName: 'index.html',
+			filename: 'index.html',
 			excludeChunks: ['server']
 		}),
 		new MiniSccExtractPlugin({
-			fileName: 'css/[name].css',
+			filename: 'css/[name].css',
 			chunkFileName: '[id].css'
 		})
 	]

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "buildDev": "rm -Rf dist && webpack --mode development --config webpack.server.config.js && webpack --mode development --config webpack.dev.config.js --w",
+    "buildDev": "rm -Rf dist && webpack --mode development --config webpack.server.config.js && webpack --mode development --config webpack.dev.config.js",
     "buildProd": "rm -Rf dist && webpack --mode production --config webpack.server.config.js && webpack --mode production --config webpack.prod.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

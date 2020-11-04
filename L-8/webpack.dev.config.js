@@ -1,42 +1,46 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports {
+module.exports = {
 	entry: {
 		main: "./src/public/index.js"
 	},
 	output: {
 		path: path.join(__dirname, 'dist/public'),
 		publicPath: "/",
-		fileName: "js/[name].js"
+		filename: "js/[name].js"
 	},
 	target: "web",
-	devTool: "#source-map",
+	devtool: "source-map",
 	module: {
 		rules: [
 			{
 				test: /\.html$/,
 				use: [
 					{
-						loader: html-loader
+						loader: 'html-loader'
 					}
 				]
 			},
 			{
 				test: /\.css$/,
-				use: ['style-loader', 'scc-loader']
+				use: ['style-loader', 'css-loader']
 			},
 			{
 				test: /\.(png|jpg|jpeg|svg|gif)$/,
-				use: ['file-loader']
+				loader: 'file-loader',
+				options: {
+					name: 'img/[name].[ext]',
+				}
 			},
 		]
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: 'src/public/index.html',
-			fileName: 'index.html',
+			filename: 'index.html',
 			excludeChunks: ['server']
 		})
-	]
+	],
+	watch: true
 };
